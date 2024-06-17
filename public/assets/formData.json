@@ -1,0 +1,2730 @@
+{
+    "status": true,
+    "message": "Success",
+    "data": [
+      {
+        "section": "Databases",
+        "components": [
+          {
+            "key": "postgres",
+            "name": "PostgreSQL",
+            "unique_id": "postgresql",
+            "image": "postgresql-icon.png",
+            "execute_action": "get_data",
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "connectionName",
+                "label": "Connection",
+                "type": "select",
+                "placeholder": "my-connection",
+                "key": "connection_name",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "q": "cred_type like '%postgres%'"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "display_value": "name",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [{"value":"sql_query", "label":"SQL Query"}, {"value":"pgsql_query", "label":"Postgres Query"}],
+                "visible": true
+              },
+              {
+                "name": "Read / Write",
+                "label": "Read / Write",
+                "type": "select",
+                "placeholder": "read-write",
+                "key": "read_write",
+                "options": [
+                  {
+                    "id": "read",
+                    "display_name": "Read"
+                  },
+                  {
+                    "id": "write",
+                    "display_name": "Write"
+                  }
+                ],
+                "api": "",
+                "params": {
+                  "method": "",
+                  "query": "",
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "display_value": "Read / Write",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              },
+              {
+                "name": "schemaType",
+                "label": "Schema",
+                "type": "select",
+                "placeholder": "my-schema",
+                "key": "schema_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "required_keys": [
+                    "id"
+                  ],
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "postgres",
+                    "action": "get_schema",
+                    "params": {
+                      "data": {
+                        "connection_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "depends_on": [
+                  "connection_name"
+                ],
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "tableName",
+                "label": "Table",
+                "type": "select",
+                "placeholder": "my-table",
+                "depends_on": [
+                  "schema_name",
+                  "read_write"
+                ],
+                "key": "table_name",
+                "api": "/perform_action/action",
+                "required_keys": [
+                  "id",
+                  "schema_name"
+                ],
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "postgres",
+                    "action": "table_name",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "tableName",
+                "label": "Create Table",
+                "type": "text",
+                "placeholder": "my-table",
+                "depends_on": [
+                  "schema_name",
+                  "read_write"
+                ],
+                "key": "create_table_name",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": false
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "columnNames",
+                "label": "Column Name",
+                "type": "multi-select",
+                "placeholder": "my-columns",
+                "depends_on": [
+                  "table_name"
+                ],
+                "key": "column_name",
+                "api": "/perform_action/action",
+                "required_keys": [],
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "postgres",
+                    "action": "column_names",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": "",
+                        "table_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": false
+                },
+                "options": [
+                  { "name": "Australia", "code": "AU" },
+                  { "name": "Brazil", "code": "BR" },
+                  { "name": "China", "code": "CN" },
+                  { "name": "Egypt", "code": "EG" }
+                ],
+                "visible": true
+              },
+              {
+                "name": "query",
+                "label": "SQL Query",
+                "type": "select",
+                "placeholder": "query",
+                "depends_on": [],
+                "key": "query",
+                "api": "/masterdata",
+                "required_keys": [],
+                "execute_action": "masterdata",
+                "validators": {
+                  "required": false
+                },
+                "options": [],
+                "visible": true
+              }
+            ],
+            "submit_action": [
+              {
+                "name": "submit",
+                "label": "submit",
+                "placeholder": "submit",
+                "type": "button",
+                "depends_on": [
+                  "table_name"
+                ],
+                "execute_action": "get_data",
+                "key": "data",
+                "api": "/perform_action/action",
+                "required_keys": [
+                  "id",
+                  "schema_name",
+                  "table_name"
+                ],
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "postgres",
+                    "action": "get_data",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": "",
+                        "table_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "submit-write",
+                "label": "submit-write",
+                "placeholder": "submit-write",
+                "type": "button",
+                "execute_action": "write_data",
+                "depends_on": [
+                  "table_name",
+                  "read_write"
+                ],
+                "key": "records",
+                "api": "/perform_action/action",
+                "required_keys": [
+                  "id",
+                  "schema_name",
+                  "table_name"
+                ],
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "postgres",
+                    "action": "write_data",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": "",
+                        "table_name": "",
+                        "records": []
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "get-columns",
+                "label": "get-columns",
+                "placeholder": "get-columns",
+                "type": "button",
+                "execute_action": "column_names",
+                "depends_on": [
+                  "table_name"
+                ],
+                "key": "data",
+                "api": "/perform_action/action",
+                "required_keys": [
+                  "id",
+                  "schema_name",
+                  "table_name"
+                ],
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "postgres",
+                    "action": "column_names",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": "",
+                        "table_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "get-primary-key",
+                "label": "get-primary-key",
+                "placeholder": "get-primary-key",
+                "type": "button",
+                "depends_on": [
+                  "table_name"
+                ],
+                "key": "data",
+                "api": "/perform_action/action",
+                "required_keys": [
+                  "id",
+                  "schema_name",
+                  "table_name"
+                ],
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "postgres",
+                    "action": "primary_key",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": "",
+                        "table_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "mysql",
+            "name": "MySQL",
+            "unique_id": "mysql",
+            "image": "mysql-icon.png",
+            "execute_action": "",
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "connectionName",
+                "label": "Connection",
+                "type": "select",
+                "placeholder": "my-connection",
+                "key": "connection_name",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "cred_type": "mysql"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "schemaType",
+                "label": "Schema",
+                "type": "select",
+                "placeholder": "my-schema",
+                "key": "schema_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "mysql",
+                    "action": "get_schema",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "depends_on": [
+                  "connection_name"
+                ],
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "tableName",
+                "label": "Table",
+                "type": "select",
+                "placeholder": "my-table",
+                "depends_on": [
+                  "schema_name"
+                ],
+                "key": "table_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "mysql",
+                    "action": "table_name",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "oracle",
+            "name": "Oracle",
+            "unique_id": "oracle",
+            "image": "oracle-icon.png",
+            "execute_action": "",
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "connectionName",
+                "label": "Connection",
+                "type": "select",
+                "placeholder": "my-connection",
+                "key": "connection_name",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "cred_type": "oracle"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "schemaType",
+                "label": "Schema",
+                "type": "select",
+                "placeholder": "my-schema",
+                "key": "schema_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "oracle",
+                    "action": "get_schema",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "depends_on": [
+                  "connection_name"
+                ],
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "tableName",
+                "label": "Table",
+                "type": "select",
+                "placeholder": "my-table",
+                "depends_on": [
+                  "schema_name"
+                ],
+                "key": "table_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "oracle",
+                    "action": "table_name",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "mssql",
+            "name": "MsSQL",
+            "unique_id": "mssql",
+            "image": "mssql-icon.png",
+            "execute_action": "",
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "connectionName",
+                "label": "Connection",
+                "type": "select",
+                "placeholder": "my-connection",
+                "key": "connection_name",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "cred_type": "mssql"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "schemaType",
+                "label": "Schema",
+                "type": "select",
+                "placeholder": "my-schema",
+                "key": "schema_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "mssql",
+                    "action": "get_schema",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "depends_on": [
+                  "connection_name"
+                ],
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "tableName",
+                "label": "Table",
+                "type": "select",
+                "placeholder": "my-table",
+                "depends_on": [
+                  "schema_name"
+                ],
+                "key": "table_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "mssql",
+                    "action": "table_name",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "s4hana",
+            "unique_id": "s4hana",
+            "name": "S4 Hana",
+            "image": "saphana-genericjdbc-channel.png",
+            "execute_action": "",
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "connectionName",
+                "label": "Connection",
+                "type": "select",
+                "placeholder": "my-connection",
+                "key": "connection_name",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "cred_type": "mssql"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "schemaType",
+                "label": "Schema",
+                "type": "select",
+                "placeholder": "my-schema",
+                "key": "schema_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "mssql",
+                    "action": "get_schema",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "depends_on": [
+                  "connection_name"
+                ],
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "tableName",
+                "label": "Table",
+                "type": "select",
+                "placeholder": "my-table",
+                "depends_on": [
+                  "schema_name"
+                ],
+                "key": "table_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "mssql",
+                    "action": "table_name",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "mongo_db",
+            "unique_id": "mongo",
+            "name": "Mongo DB",
+            "image": "mongo-icon.png",
+            "execute_action": "",
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "connectionName",
+                "label": "Connection",
+                "type": "select",
+                "placeholder": "my-connection",
+                "key": "connection_name",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "cred_type": "mssql"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "schemaType",
+                "label": "Schema",
+                "type": "select",
+                "placeholder": "my-schema",
+                "key": "schema_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "mssql",
+                    "action": "get_schema",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "depends_on": [
+                  "connection_name"
+                ],
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "tableName",
+                "label": "Table",
+                "type": "select",
+                "placeholder": "my-table",
+                "depends_on": [
+                  "schema_name"
+                ],
+                "key": "table_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "mssql",
+                    "action": "table_name",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "salesforce",
+            "unique_id": "salesforce",
+            "name": "Salesforce",
+            "image": "comp-salesforce.png",
+            "execute_action": "",
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "connectionName",
+                "label": "Connection",
+                "type": "select",
+                "placeholder": "my-connection",
+                "key": "connection_name",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "cred_type": "mssql"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "schemaType",
+                "label": "Schema",
+                "type": "select",
+                "placeholder": "my-schema",
+                "key": "schema_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "mssql",
+                    "action": "get_schema",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "depends_on": [
+                  "connection_name"
+                ],
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "tableName",
+                "label": "Table",
+                "type": "select",
+                "placeholder": "my-table",
+                "depends_on": [
+                  "schema_name"
+                ],
+                "key": "table_name",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "mssql",
+                    "action": "table_name",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "amazon_s3",
+            "unique_id": "s3",
+            "name": "s3",
+            "image": "s3-icon.png",
+            "execute_action": "",
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "connectionName",
+                "label": "Connection",
+                "type": "select",
+                "placeholder": "my-connection",
+                "key": "connection_name",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "cred_type": "s3"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "elastic_search",
+            "unique_id": "elasticsearch",
+            "name": "ElasticSearch",
+            "image": "elasticsearch-icon.png",
+            "execute_action": "",
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "connectionName",
+                "label": "Connection",
+                "type": "select",
+                "placeholder": "my-connection",
+                "key": "connection_name",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": "cred_type like '%postgresql%'",
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "display_value": "name",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "Read / Write",
+                "label": "Read / Write",
+                "type": "select",
+                "placeholder": "read-write",
+                "key": "read_write",
+                "options": [
+                  {
+                    "id": "read",
+                    "display_name": "Read"
+                  },
+                  {
+                    "id": "write",
+                    "display_name": "Write"
+                  }
+                ],
+                "api": "",
+                "params": {
+                  "method": "",
+                  "query": "",
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "display_value": "Read / Write",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              },
+              {
+                "name": "indexName",
+                "label": "Index Name",
+                "type": "select",
+                "placeholder": "my-index-name",
+                "depends_on": [
+                  "read_write"
+                ],
+                "key": "index_name",
+                "api": "/perform_action/action",
+                "required_keys": [
+                  "id"
+                ],
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "elasticsearch",
+                    "action": "get_indices",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "indexName",
+                "label": "Index Name",
+                "type": "text",
+                "placeholder": "Index Name",
+                "depends_on": [
+                  "read_write"
+                ],
+                "key": "index_name",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "redis",
+            "unique_id": "redis",
+            "name": "Redis",
+            "image": "redis-icon.png",
+            "execute_action": "",
+            "parameters": []
+          }
+        ]
+      },
+      {
+        "section": "Files",
+        "components": [
+          {
+            "key": "csv_loader",
+            "name": "CSV File",
+            "unique_id": "csv",
+            "image": "csv-icon.png",
+            "execute_action": "",
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "Read / Write",
+                "label": "Read / Write",
+                "type": "select",
+                "placeholder": "read-write",
+                "key": "read_write",
+                "options": [
+                  {
+                    "id": "read",
+                    "display_name": "Read"
+                  },
+                  {
+                    "id": "write",
+                    "display_name": "Write"
+                  }
+                ],
+                "api": "",
+                "params": {
+                  "method": "",
+                  "query": "",
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "display_value": "Read / Write",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              },
+              {
+                "name": "fileName",
+                "label": "File Name",
+                "type": "text",
+                "placeholder": "file-name",
+                "depends_on": [
+                  "read_write"
+                ],
+                "key": "file_name",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "sourceName",
+                "label": "Source Name",
+                "type": "select",
+                "placeholder": "csv-source",
+                "key": "source_data",
+                "depends_on": [
+                  "read_write"
+                ],
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "cred_type": "csv"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "columnNames",
+                "label": "Column Name",
+                "type": "table",
+                "placeholder": "csv-columns",
+                "key": "source_data",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "csvloader",
+                    "action": "get_columns",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "excel_loader",
+            "name": "Ms Excel",
+            "unique_id": "excel",
+            "image": "excel-icon.png",
+            "execute_action": "",
+            "components_inputs": [],
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "Read / Write",
+                "label": "Read / Write",
+                "type": "select",
+                "placeholder": "read-write",
+                "key": "read_write",
+                "options": [
+                  {
+                    "id": "read",
+                    "display_name": "Read"
+                  },
+                  {
+                    "id": "write",
+                    "display_name": "Write"
+                  }
+                ],
+                "api": "",
+                "params": {
+                  "method": "",
+                  "query": "",
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "display_value": "Read / Write",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              },
+              {
+                "name": "fileName",
+                "label": "File Name",
+                "type": "text",
+                "placeholder": "file-name",
+                "depends_on": [
+                  "read_write"
+                ],
+                "key": "file_name",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "sourceName",
+                "label": "Source Name",
+                "type": "select",
+                "placeholder": "excel-source",
+                "key": "source_data",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "cred_type": "excel"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "columnNames",
+                "label": "Column Name",
+                "type": "table",
+                "placeholder": "excel-columns",
+                "key": "source_data",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "excelloader",
+                    "action": "get_columns",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "parquet_loader",
+            "name": "Parquet File",
+            "unique_id": "parquet",
+            "image": "parquet-icon.png",
+            "components_inputs": [],
+            "execute_action": "",
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "Read / Write",
+                "label": "Read / Write",
+                "type": "select",
+                "placeholder": "read-write",
+                "key": "read_write",
+                "options": [
+                  {
+                    "id": "read",
+                    "display_name": "Read"
+                  },
+                  {
+                    "id": "write",
+                    "display_name": "Write"
+                  }
+                ],
+                "api": "",
+                "params": {
+                  "method": "",
+                  "query": "",
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "display_value": "Read / Write",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              },
+              {
+                "name": "fileName",
+                "label": "File Name",
+                "type": "text",
+                "placeholder": "file-name",
+                "depends_on": [
+                  "read_write"
+                ],
+                "key": "file_name",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "sourceName",
+                "label": "Source Name",
+                "type": "select",
+                "placeholder": "parquet-source",
+                "key": "source_data",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "cred_type": "parquet"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "columnNames",
+                "label": "Column Name",
+                "type": "table",
+                "placeholder": "parquet-columns",
+                "key": "source_data",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "parquetloader",
+                    "action": "get_columns",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "feather_loader",
+            "name": "Feather File",
+            "unique_id": "feather",
+            "image": "feather-icon.png",
+            "execute_action": "",
+            "components_inputs": [],
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "Read / Write",
+                "label": "Read / Write",
+                "type": "select",
+                "placeholder": "read-write",
+                "key": "read_write",
+                "options": [
+                  {
+                    "id": "read",
+                    "display_name": "Read"
+                  },
+                  {
+                    "id": "write",
+                    "display_name": "Write"
+                  }
+                ],
+                "api": "",
+                "params": {
+                  "method": "",
+                  "query": "",
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "display_value": "Read / Write",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              },
+              {
+                "name": "fileName",
+                "label": "File Name",
+                "type": "text",
+                "placeholder": "file-name",
+                "depends_on": [
+                  "read_write"
+                ],
+                "key": "file_name",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "sourceName",
+                "label": "Source Name",
+                "type": "select",
+                "placeholder": "feather-source",
+                "key": "source_data",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "cred_type": "feather"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "columnNames",
+                "label": "Column Name",
+                "type": "table",
+                "placeholder": "feather-columns",
+                "key": "source_data",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "featherloader",
+                    "action": "get_columns",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "json_loader",
+            "name": "Json File",
+            "unique_id": "json",
+            "image": "json-icon.png",
+            "execute_action": "",
+            "components_inputs": [],
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "text",
+                "placeholder": "source-name",
+                "depends_on": [],
+                "key": "source",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "Read / Write",
+                "label": "Read / Write",
+                "type": "select",
+                "placeholder": "read-write",
+                "key": "read_write",
+                "options": [
+                  {
+                    "id": "read",
+                    "display_name": "Read"
+                  },
+                  {
+                    "id": "write",
+                    "display_name": "Write"
+                  }
+                ],
+                "api": "",
+                "params": {
+                  "method": "",
+                  "query": "",
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "display_value": "Read / Write",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              },
+              {
+                "name": "fileName",
+                "label": "File Name",
+                "type": "text",
+                "placeholder": "file-name",
+                "depends_on": [
+                  "read_write"
+                ],
+                "key": "file_name",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "connection_name": "",
+                        "schema_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "sourceName",
+                "label": "Source Name",
+                "type": "select",
+                "placeholder": "json-source",
+                "key": "source_data",
+                "api": "/credsmodel",
+                "params": {
+                  "method": "get",
+                  "query": {
+                    "cred_type": "json"
+                  },
+                  "request_body": {},
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "columnNames",
+                "label": "Column Name",
+                "type": "table",
+                "placeholder": "json-columns",
+                "key": "source_data",
+                "api": "/perform_action/action",
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "jsonloader",
+                    "action": "get_columns",
+                    "params": {}
+                  },
+                  "parameters": ""
+                },
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "section": "Others",
+        "components": [
+          {
+            "key": "masking",
+            "name": "Masking",
+            "unique_id": "masking",
+            "image": "masking-icon.png",
+            "execute_action": "mask_data",
+            "components_inputs": [],
+            "parameters": [
+              {
+                "name": "inputField",
+                "label": "Input Field",
+                "type": "select",
+                "placeholder": "masking-column",
+                "key": "input_filed",
+                "depends_on": [],
+                "depends_key": "",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "outputField",
+                "label": "Output Field",
+                "type": "select",
+                "placeholder": "masking-column",
+                "key": "output_filed",
+                "depends_on": [],
+                "depends_key": "",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "maskingType",
+                "label": "Masking Type",
+                "type": "select",
+                "placeholder": "masking-type",
+                "options": [
+                  {
+                    "id": "masking",
+                    "display_name": "Masking"
+                  },
+                  {
+                    "id": "encrypt",
+                    "display_name": "Encryption"
+                  },
+                  {
+                    "id": "decrypt",
+                    "display_name": "Decryption"
+                  },
+                  {
+                    "id": "faker",
+                    "display_name": "Faker"
+                  }
+                ],
+                "key": "masking_tech",
+                "callback": true,
+                "depends_on": [],
+                "depends_key": "",
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              },
+              {
+                "name": "maskingChar",
+                "label": "Masking Char",
+                "type": "text",
+                "placeholder": "masking-char",
+                "options": [],
+                "key": "masking_char",
+                "depends_on": [
+                  "masking"
+                ],
+                "depends_key": "masking_tech",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              },
+              {
+                "name": "maskingType",
+                "label": "Masking Type",
+                "type": "text",
+                "placeholder": "masking-type",
+                "options": [
+                  {
+                    "id": "string",
+                    "display_name": "String"
+                  },
+                  {
+                    "id": "email",
+                    "display_name": "Email"
+                  },
+                  {
+                    "id": "znumber",
+                    "display_name": "Phone Number"
+                  },
+                  {
+                    "id": "number",
+                    "display_name": "Random Number"
+                  }
+                ],
+                "key": "masking_type",
+                "depends_on": [
+                  "masking"
+                ],
+                "depends_key": "masking_tech",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              },
+              {
+                "name": "algorithm",
+                "label": "Algorithm",
+                "type": "select",
+                "placeholder": "algorithm",
+                "options": [
+                  {
+                    "id": "AES",
+                    "display_name": "AES"
+                  }
+                ],
+                "key": "algorithm",
+                "depends_on": [
+                  "encrypt",
+                  "decrypt"
+                ],
+                "depends_key": "masking_tech",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              },
+              {
+                "name": "secretKey",
+                "label": "SecretKey",
+                "type": "text",
+                "placeholder": "secret-key",
+                "key": "secret_key",
+                "depends_on": [
+                  "encrypt",
+                  "decrypt"
+                ],
+                "depends_key": "masking_tech",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "keyFormat",
+                "label": "KeyFormat",
+                "type": "select",
+                "placeholder": "key-format",
+                "options": [
+                  {
+                    "id": "Hex",
+                    "display_name": "Hex"
+                  }
+                ],
+                "key": "key_format",
+                "depends_on": [
+                  "encrypt",
+                  "decrypt"
+                ],
+                "depends_key": "masking_tech",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              },
+              {
+                "name": "fakerType",
+                "label": "Faker Type",
+                "type": "select",
+                "placeholder": "faker-type",
+                "options": [
+                  {
+                    "id": "first_name",
+                    "display_name": "First Name"
+                  },
+                  {
+                    "id": "last_name",
+                    "display_name": "Last Name"
+                  },
+                  {
+                    "id": "name",
+                    "display_name": "Full Name"
+                  },
+                  {
+                    "id": "email",
+                    "display_name": "Email"
+                  },
+                  {
+                    "id": "phone_number",
+                    "display_name": "Phone Number"
+                  },
+                  {
+                    "id": "url",
+                    "display_name": "URL"
+                  },
+                  {
+                    "id": "mac_address",
+                    "display_name": "Mac Address"
+                  },
+                  {
+                    "id": "ipv4",
+                    "display_name": "Ipv4"
+                  },
+                  {
+                    "id": "ipv6",
+                    "display_name": "Ipv6"
+                  }
+                ],
+                "key": "faker_type",
+                "depends_on": [
+                  "faker"
+                ],
+                "depends_key": "masking_tech",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "visible": true
+              }
+            ],
+            "submit_action": [
+              {
+                "name": "submit-masking",
+                "label": "submit",
+                "placeholder": "submit-masking",
+                "type": "button",
+                "depends_on": [],
+                "key": "masking_cond",
+                "api": "/perform_action/action",
+                "required_keys": [],
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "masking",
+                    "action": "mask_data",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "records": [],
+                        "masking_cond": [
+                          {
+                            "masking_tech": "",
+                            "input_field": "",
+                            "output_field": "",
+                            "faker_type": "",
+                            "masking_type": "",
+                            "masking_char": ""
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "data_validation",
+            "name": "Data Comparing",
+            "unique_id": "data-comparing",
+            "image": "data-comparing.png",
+            "execute_action": "compare_data",
+            "components_inputs": [],
+            "parameters": [],
+            "submit_action": [
+              {
+                "name": "submit-left-key",
+                "label": "submit",
+                "placeholder": "submit-left-key",
+                "type": "button",
+                "depends_on": [],
+                "key": "left-key",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {}
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "submit-right-key",
+                "label": "submit",
+                "placeholder": "submit-right-key",
+                "type": "button",
+                "depends_on": [],
+                "key": "right-key",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {}
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "submit-validation-col",
+                "label": "submit",
+                "placeholder": "submit-validation-col",
+                "type": "button",
+                "depends_on": [],
+                "key": "validation-col",
+                "api": "",
+                "required_keys": [],
+                "params": {
+                  "method": "",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {}
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "submit-compare",
+                "label": "submit",
+                "placeholder": "submit-compare",
+                "type": "button",
+                "depends_on": [],
+                "key": "compare",
+                "api": "/perform_action/action",
+                "required_keys": [],
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "data_validation",
+                    "action": "compare_data",
+                    "params": {
+                      "data": {
+                        "left_records": [],
+                        "right_records": [],
+                        "left_key": "",
+                        "right_key": "",
+                        "validation_col": []
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "section": "Transformations",
+        "components": [
+          {
+            "key": "filter_executor",
+            "name": "Filter",
+            "unique_id": "filter",
+            "image": "filter-icon.png",
+            "execute_action": "execute_filter",
+            "components_inputs": [],
+            "parameters": [],
+            "submit_action": [
+              {
+                "name": "submit-filtergen",
+                "label": "submit",
+                "placeholder": "submit-filtergen",
+                "type": "button",
+                "depends_on": [],
+                "key": "filter_cond",
+                "api": "/perform_action/action",
+                "required_keys": [],
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "filter_generator",
+                    "action": "filter_gen",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "filter_cond": []
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              },
+              {
+                "name": "submit-filterexec",
+                "label": "submit",
+                "placeholder": "submit-filterexec",
+                "type": "button",
+                "depends_on": [],
+                "key": "filter_cond",
+                "api": "/perform_action/action",
+                "required_keys": [],
+                "params": {
+                  "method": "post",
+                  "query": {},
+                  "request_body": {
+                    "name": "filter_executor",
+                    "action": "execute_filter",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "records": [],
+                        "filter_cond": []
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "v_lookup",
+            "name": "Vlookup",
+            "unique_id": "vlookup",
+            "image": "vlookup-icon.png",
+            "execute_action": "",
+            "components_inputs": [],
+            "parameters": []
+          },
+          {
+            "key": "n_way_match",
+            "name": "N-Way Match",
+            "unique_id": "nway_match",
+            "image": "nwaymatch-icon.png",
+            "execute_action": "",
+            "components_inputs": [],
+            "parameters": []
+          },
+          {
+            "key": "report",
+            "name": "Report",
+            "unique_id": "report",
+            "image": "report-icon.png",
+            "execute_action": "",
+            "components_inputs": [],
+            "parameters": []
+          },
+          {
+            "key": "concat",
+            "name": "Concat",
+            "unique_id": "concat",
+            "image": "concat-icon.png",
+            "execute_action": "",
+            "components_inputs": [],
+            "parameters": []
+          },
+          {
+            "key": "match_criteria",
+            "name": "MatchCriteria",
+            "unique_id": "match_criteria",
+            "image": "match_criteria-icon.png",
+            "execute_action": "",
+            "components_inputs": [],
+            "parameters": [
+              {
+                "name": "SourceName",
+                "label": "Source Name",
+                "type": "select",
+                "placeholder": "source-name",
+                "key": "source",
+                "depends_on": [],
+                "depends_key": "",
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          },
+          {
+            "key": "master_data",
+            "name": "MasterData",
+            "unique_id": "master_data",
+            "image": "master_data-icon.png",
+            "components_inputs": [],
+            "parameters": [
+              {
+                "name": "masterData",
+                "label": "MasterData",
+                "type": "select",
+                "placeholder": "master-data",
+                "key": "id",
+                "api": "/masterdata",
+                "execute_action": "masterdata",
+                "params": {
+                  "required_keys": [],
+                  "method": "get",
+                  "query": {
+                    "q": ""
+                  },
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "data": {
+                        "connection_name": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "depends_on": [],
+                "callback": true,
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ],
+            "submit_action": [
+              {
+                "name": "submit",
+                "label": "submit",
+                "placeholder": "submit",
+                "type": "button",
+                "depends_on": [],
+                "key": "data",
+                "api": "/masterdata",
+                "execute_action": "masterdata",
+                "required_keys": [
+                  "id"
+                ],
+                "params": {
+                  "method": "get",
+                  "query": {},
+                  "request_body": {
+                    "name": "",
+                    "action": "",
+                    "params": {
+                      "creds": {},
+                      "data": {
+                        "id": ""
+                      }
+                    }
+                  },
+                  "parameters": ""
+                },
+                "validators": {
+                  "required": true
+                },
+                "options": [],
+                "visible": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

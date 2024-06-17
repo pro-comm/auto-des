@@ -1,0 +1,27 @@
+<div class="formBuilder w-full-vw">
+    <form class="w-full" [formGroup]="dynamicForm" (ngSubmit)="saveFormData()" novalidate>
+        <div class="field flex w-full" *ngFor="let field of formBuilderConfiguration" [ngSwitch]="field.type">
+            <label class="w-25 m-2">
+                {{field.label}}
+            </label>
+            <input type="text" class="w-70 m-2" placeholder="{{field.placeholder}}" pInputText *ngSwitchCase="'text'" formControlName="{{field.name}}"/>
+             <p-inputNumber class="w-70 p-2" *ngSwitchCase="'number'"  placeholder="{{field.placeholder}}" formControlName="{{field.name}}"/> 
+             <p-dropdown 
+                class="w-70 m-2"
+                formControlName="{{field.name}}"
+                placeholder="{{field.placeholder}}" 
+                *ngSwitchCase="'select'"
+                [options]="field.options"
+                [style]="{'minWidth':'100%'}"
+                 />
+              <p-multiSelect 
+                class="w-70 m-2"
+                formControlName="{{field.name}}"
+                *ngSwitchCase="'multi-select'"
+                placeholder="{{field.placeholder}}" 
+                [options]="field.options"
+              />
+        </div>
+        <p-button label="Submit" type="submit" [disabled]="false" />
+    </form>
+</div>
