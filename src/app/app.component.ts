@@ -24,12 +24,15 @@ export class AppComponent implements OnInit {
 
   getTheFormFieldsData(){
     this.appService.getFormData().subscribe((resp: any)=>{
-      console.log(resp.data[0].components[0].parameters, "hdfhdhf")
         this.formFields = resp.data[0].components[0].parameters;
     })
   }
 
   changeHandler(field:FormElementTypes){
-    console.log(field, "yuisdyfudsyuf")
+    console.log(field, "fileds on change the records")
+  }
+
+  submitHandler(value: object){
+    console.log(value, "After form submit")
   }
 }

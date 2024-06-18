@@ -178,7 +178,7 @@
 </style>
 
 <main class="main">
-   <app-ad-form-builder [formBuilderConfiguration]="formFields" (handleChange)="changeHandler($event)"></app-ad-form-builder>
+   <app-ad-form-builder [formBuilderConfiguration]="formFields" (handleSubmit)="submitHandler($event)" (handleChange)="changeHandler($event)"></app-ad-form-builder>
 </main>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->

@@ -22,7 +22,13 @@ export interface FormElementTypes {
     "display_value": string,
     "callback": boolean,
     "validators": {
-        "required": boolean
+        "required"?: boolean,
+        "min_length"?: number,
+        "max_length"?: number,
+        "min"?:number,
+        "max"?: number,
+        "email"?: boolean,
+        "pattern"?:string
     },
     "options": Array<Options>,
     "visible": boolean,

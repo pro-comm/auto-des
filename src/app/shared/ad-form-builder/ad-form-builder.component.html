@@ -1,13 +1,16 @@
-<div class="formBuilder w-full-vw">
-    <form class="w-full" [formGroup]="dynamicForm" (ngSubmit)="saveFormData()" novalidate>
+<div class="formBuilder w-full-vw p-2">
+    <form class="w-full" [formGroup]="dynamicForm" *ngIf="renderForm()" (ngSubmit)="saveFormData()" novalidate>
         <div class="field flex w-full" *ngFor="let field of formBuilderConfiguration" [ngSwitch]="field.type">
-            <label class="w-25 m-2">
+          <div class="w-25 p-2">
+          <label class="">
                 {{field.label}}
-            </label>
-            <input type="text" class="w-70 m-2" (ngModelChange)="onChange($event, field)" placeholder="{{field.placeholder}}" pInputText *ngSwitchCase="'text'" formControlName="{{field.name}}"/>
-             <p-inputNumber (ngModelChange)="onChange($event, field)" class="w-70 p-2" *ngSwitchCase="'number'"  placeholder="{{field.placeholder}}" formControlName="{{field.name}}"/> 
+            </label><sup class="p-error" *ngIf="field?.validators?.required">*</sup>
+          </div>  
+          <div class="w-70 p-2">
+            <input type="text" class="w-full" (ngModelChange)="onChange($event, field)" placeholder="{{field.placeholder}}" pInputText *ngSwitchCase="'text'" formControlName="{{field.name}}"/>
+             <p-inputNumber (ngModelChange)="onChange($event, field)" class="w-full" *ngSwitchCase="'number'"  placeholder="{{field.placeholder}}" formControlName="{{field.name}}"/> 
              <p-dropdown 
-                class="w-70 m-2"
+                class="w-full"
                 formControlName="{{field.name}}"
                 placeholder="{{field.placeholder}}" 
                 *ngSwitchCase="'select'"
@@ -15,15 +18,25 @@
                 [style]="{'minWidth':'100%'}"
                 (ngModelChange)="onChange($event, field)"
                  />
+               <!-- <p-multiSelect 
+                 [options]="cities" 
+                 formControlName="selectedCities" 
+                 optionLabel="name" 
+                 placeholder="Select Cities"/> -->
+
               <p-multiSelect 
-                class="w-70 m-2"
+                class="w-full"
                 formControlName="{{field.name}}"
                 *ngSwitchCase="'multi-select'"
-                placeholder="{{field.placeholder}}" 
                 [options]="field.options"
+                 optionLabel="name" 
+                 placeholder="Select Cities"
                 (ngModelChange)="onChange($event, field)"
               />
+              <div class="block p-error" *ngIf="dynamicForm?.get(field.name)?.invalid && dynamicForm?.get(field.name)?.dirty">This is Required Fields</div>
+            </div>
         </div>
-        <p-button label="Submit" type="submit" [disabled]="false" />
+        <p-button label="Submit" class="p-2" type="submit" [disabled]="dynamicForm?.invalid" />
+        <p-button label="Reset" severity="secondary" class="p-2" type="reset" [disabled]="false" />
     </form>
 </div>

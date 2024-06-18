@@ -13,7 +13,7 @@
             "execute_action": "get_data",
             "parameters": [
               {
-                "name": "SourceName",
+                "name": "sourceName",
                 "label": "Source Name",
                 "type": "text",
                 "placeholder": "source-name",
@@ -127,7 +127,7 @@
                 "validators": {
                   "required": true
                 },
-                "options": [],
+                "options": [{"value":"sql_query", "label":"SQL Query"}, {"value":"pgsql_query", "label":"Postgres Query"}],
                 "visible": true
               },
               {
@@ -164,11 +164,11 @@
                 "validators": {
                   "required": true
                 },
-                "options": [],
+                "options": [{"value":"sql_query", "label":"SQL Query"}, {"value":"pgsql_query", "label":"Postgres Query"}],
                 "visible": true
               },
               {
-                "name": "tableName",
+                "name": "createTable",
                 "label": "Create Table",
                 "type": "text",
                 "placeholder": "my-table",
@@ -253,7 +253,7 @@
                 "validators": {
                   "required": false
                 },
-                "options": [],
+                "options": [{"value":"sql_query", "label":"SQL Query"}, {"value":"pgsql_query", "label":"Postgres Query"}],
                 "visible": true
               }
             ],
