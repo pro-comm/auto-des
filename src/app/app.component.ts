@@ -28,4 +28,8 @@ export class AppComponent implements OnInit {
         this.formFields = resp.data[0].components[0].parameters;
     })
   }
+
+  changeHandler(field:FormElementTypes){
+    console.log(field, "yuisdyfudsyuf")
+  }
 }
