@@ -15,6 +15,7 @@
                 placeholder="{{field.placeholder}}" 
                 *ngSwitchCase="'select'"
                 [options]="field.options"
+                optionLabel="label" 
                 [style]="{'minWidth':'100%'}"
                 (ngModelChange)="onChange($event, field)"
                  />
@@ -30,7 +31,7 @@
                 *ngSwitchCase="'multi-select'"
                 [options]="field.options"
                  optionLabel="name" 
-                 placeholder="Select Cities"
+                 placeholder="{{field.placeholder}}"
                 (ngModelChange)="onChange($event, field)"
               />
               <div class="block p-error" *ngIf="dynamicForm?.get(field.name)?.invalid && dynamicForm?.get(field.name)?.dirty">This is Required Fields</div>
